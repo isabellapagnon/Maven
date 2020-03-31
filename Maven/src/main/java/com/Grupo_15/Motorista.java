@@ -5,7 +5,6 @@ String cpf;
 String nome;
 Veiculo veiculo;
 FormaPagamento formaPagamento;
-public enum FormaPagamento {DINHEIRO,CARTAO,TODAS;}
 
 public String getCpf() {
     return cpf;
