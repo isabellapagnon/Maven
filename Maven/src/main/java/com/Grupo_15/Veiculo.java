@@ -2,11 +2,10 @@ package com.Grupo_15;
 
 public class Veiculo {
 
-    public enum CategoriaVeiculo { SIMPLES, NORMAL, LUXO };
-    String placa;
-    String marca;
-    String cor;
-    CategoriaVeiculo categoria;
+    private String placa;
+    private String marca;
+    private String cor;
+    private CategoriaVeiculo categoria;
 
     public Veiculo(String placa, String marca, String cor, CategoriaVeiculo categoria) {
         this.placa = placa;
@@ -30,5 +29,4 @@ public class Veiculo {
     public CategoriaVeiculo getCategoria() {
         return categoria;
     }
-
 }
