@@ -1,48 +1,37 @@
 package com.Grupo_15;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
-/*
-Exemplo simples de uso da API Apache Commons CVS
-Extrair o arquivo commons-csv-1.7.jar para o diretorio do projeto
-Para compilar no Windows: javac -cp .;.\commons-csv-1.7.jar App.java
-Para compilar no Linux: javac -cp commons-csv-1.7.jar App.java
-Para executar no windows: java -cp .;.\commons-csv-1.7.jar App
-Para executar no Linux: java -cp .:commons-csv-1.7.jar App
-Para executar: java -cp .;.\commons-csv-1.7.jar App.java
-*/
 public class App {
-    private static final String SAMPLE_CSV_FILE_PATH = System.getProperty("user.dir")+"\\resources\\veiculos.dat";
-    
+
+    private static final String VEICULOS_CSV_FILE_PATH = "resources/veiculos.dat";
+    private static final String MOTORISTAS_CSV_FILE_PATH = "resources/motoristas.dat";
+    private static final String PASSAGEIROS_CSV_FILE_PATH = "resources/passageiros.dat";
+
     public static void main(String[] args) throws IOException {
-        try (
-            Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
-            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
-            
-        ) {
-            for (CSVRecord csvRecord : csvParser) {
-                // Accessing Values by Column Index
-                String placa = csvRecord.get(0);
-                String marca = csvRecord.get(1);
-                String cor = csvRecord.get(2);
-                String categoria = csvRecord.get(3);
+        PersistenciaVeiculos pv = new PersistenciaVeiculos(Paths.get(VEICULOS_CSV_FILE_PATH));
+        List<Veiculo> veiculos = pv.carregaVeiculos();
 
-                System.out.println("Record No - " + csvRecord.getRecordNumber());
-                System.out.println("---------------");
-                System.out.println("Placa : " + placa);
-                System.out.println("Marca : " + marca);
-                System.out.println("Cor : " + cor);
-                System.out.println("Categoria : " + categoria);
-                System.out.println("---------------\n\n");
-            }
-            
+        PersistenciaMotoristas pm = new PersistenciaMotoristas(Paths.get(MOTORISTAS_CSV_FILE_PATH), veiculos);
+        List<Motorista> motoristas = pm.carregaMotoristas();
 
-        }
+        PersistenciaPassageiros pp = new PersistenciaPassageiros(Paths.get(PASSAGEIROS_CSV_FILE_PATH));
+        List<Passageiro> passageiros = pp.carregaPassageiros();
+
+        Veiculo v = new Veiculo("NLP2X31", "RENAULT", "VERMELHO", CategoriaVeiculo.LUXO);
+        Motorista m = new Motorista("12345678910", "Bernardo", v, FormaPagamento.CARTAO);
+        Passageiro p = new Passageiro("98765432110", "Bernadette", FormaPagamento.DINHEIRO, "675848");
+
+        veiculos.add(v);
+        motoristas.add(m);
+        passageiros.add(p);
+
+        pv.persisteVeiculos(veiculos);
+        pm.persisteMotoristas(motoristas);
+        pp.persistePassageiros(passageiros);
+
+        System.out.println("Successo");
     }
 }
