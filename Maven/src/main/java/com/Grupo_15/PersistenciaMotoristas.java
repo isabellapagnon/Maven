@@ -36,7 +36,7 @@ public class PersistenciaMotoristas {
                 String placa = csvRecord.get(2);
                 Veiculo match = null;
                 for (Veiculo v : veiculos) {
-                    if (v.getPlaca() == placa) {
+                    if (v.getPlaca().equals(placa)) {
                         match = v;
                         break;
                     }
@@ -57,7 +57,12 @@ public class PersistenciaMotoristas {
         try (BufferedWriter writer = Files.newBufferedWriter(motoristasPath);
                 CSVPrinter csvPrinter = new CSVPrinter(writer, motoristasCsvFormat);) {
             for (Motorista m : motoristas) {
-                csvPrinter.printRecord(m.getCpf(), m.getNome(), m.getVeiculo().getPlaca(), m.getFormaPagamento());
+                String placa = null;
+                Veiculo v = m.getVeiculo();
+                if (v != null) {
+                    placa = v.getPlaca();
+                }
+                csvPrinter.printRecord(m.getCpf(), m.getNome(), placa, m.getFormaPagamento());
             }
             csvPrinter.flush();
         }
