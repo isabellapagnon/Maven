@@ -21,8 +21,8 @@ public class App {
         List<Passageiro> passageiros = pp.carregaPassageiros();
 
         Veiculo v = new Veiculo("NLP2X31", "RENAULT", "VERMELHO", CategoriaVeiculo.LUXO);
-        Motorista m = new Motorista("12345678910", "Bernardo", v, FormaPagamento.CARTAO);
-        Passageiro p = new Passageiro("98765432110", "Bernadette", FormaPagamento.DINHEIRO, "675848");
+        Motorista m = new Motorista("12345678910", "Felipe", v, FormaPagamento.CARTAO);
+        Passageiro p = new Passageiro("98765432110", "Gabriela", FormaPagamento.DINHEIRO, "675848");
 
         veiculos.add(v);
         motoristas.add(m);
